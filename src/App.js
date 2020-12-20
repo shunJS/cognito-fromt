@@ -1,25 +1,53 @@
-import logo from './logo.svg';
 import './App.css';
+import React from 'react';
 
-function App() {
-  return (
+import {AmplifyAuthenticator, AmplifyForgotPassword, AmplifySignIn, AmplifySignOut,AmplifySignUp} from "@aws-amplify/ui-react";
+import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
+
+
+const App = () => {
+  const [authState, setAuthState] = React.useState();
+  const [user, setUser] = React.useState();
+
+  React.useEffect(() => {
+      onAuthUIStateChange((nextAuthState, authData) => {
+          setAuthState(nextAuthState);
+          setUser(authData)
+          console.log(authData)
+      });
+  }, []);
+
+
+  return authState === AuthState.SignedIn && user ? (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <div>Hello, {user.username}</div>
+        <div>Email, {user.attributes.email}</div>
+        <small>JWT↓ {user.signInUserSession.accessToken.jwtToken}</small>
+        <AmplifySignOut />
     </div>
-  );
+  ) : (
+    <AmplifyAuthenticator>
+       <AmplifySignUp
+           slot="sign-up"
+           validationErrors='すでに'
+           formFields={[
+             { type: "username" },
+             { type: "password" },
+             { type: "email" }
+           ]}
+        />
+        <AmplifySignIn
+          headerText="Cognitoへサインイン"
+          slot="sign-in"
+        />
+        <AmplifyForgotPassword
+          headerText="パスワードの再設定"
+          slot="forgot-password"
+        />
+       </AmplifyAuthenticator>
+  )
 }
+
+
 
 export default App;
