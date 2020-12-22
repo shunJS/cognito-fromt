@@ -21,8 +21,8 @@ const App = () => {
   return authState === AuthState.SignedIn && user ? (
     <div className="App">
         <div>Hello, {user.username}</div>
-        <div>Email, {user.attributes.email}</div>
-        <small>JWT↓ {user.signInUserSession.accessToken.jwtToken}</small>
+        {/* <div>Email, {user.attributes.email} </div> */}
+        {/* <small>JWT↓ {user.signInUserSession.accessToken.jwtToken}</small> */}
         <AmplifySignOut />
     </div>
   ) : (
