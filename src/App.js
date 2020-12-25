@@ -3,6 +3,7 @@ import React from 'react';
 
 import {AmplifyAuthenticator, AmplifyForgotPassword, AmplifySignIn, AmplifySignOut,AmplifySignUp} from "@aws-amplify/ui-react";
 import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
+import TaskFetch from './Components/TaskFetch';
 
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
         {/* <div>Email, {user.attributes.email} </div> */}
         {/* <small>JWT↓ {user.signInUserSession.accessToken.jwtToken}</small> */}
         <AmplifySignOut />
+        <TaskFetch />
     </div>
   ) : (
     <AmplifyAuthenticator>
